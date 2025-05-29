@@ -33,8 +33,17 @@ setInterval(drawMatrix, 33);
 const countdown = document.getElementById('countdown');
 countdown.style.opacity = 0;
 
-const targetDate = new Date();
-targetDate.setDate(targetDate.getDate() + 3);
+// Controlla se esiste già una data di fine salvata nel browser
+let savedDate = localStorage.getItem('targetDate');
+let targetDate;
+
+if (savedDate) {
+  targetDate = new Date(savedDate);
+} else {
+  targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 3);
+  localStorage.setItem('targetDate', targetDate.toISOString());
+}
 
 function updateCountdown() {
   const now = new Date();
