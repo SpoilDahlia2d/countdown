@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+  font-family: 'Courier New', monospace;
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 0, 255, 0.1);
+  padding: 20px 30px;
+  border: 1px solid magenta;
+  color: #f0a;
+  text-align: center;
+  font-size: 1.5em;
+  text-shadow: 0 0 8px magenta;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: 1.7em;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+
+.countdown {
+  font-size: 1em;
+  color: #ff66cc;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+.countdown.visible {
+  opacity: 1;
+}
+
+.hidden {
+  display: block;
+}
