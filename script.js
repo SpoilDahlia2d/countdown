@@ -1,67 +1,61 @@
-Sc// MATRIX EFFECT
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
+// MATRIX EFFECT
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
 
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@$%&*#".split("");
+const letters = '01'.split('');
 const fontSize = 14;
 const columns = canvas.width / fontSize;
 const drops = Array(Math.floor(columns)).fill(1);
 
 function drawMatrix() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "#f0a";
-  ctx.font = `${fontSize}px monospace`;
+  ctx.fillStyle = '#f0f'; // Magenta
+  ctx.font = fontSize + 'px monospace';
 
   for (let i = 0; i < drops.length; i++) {
-    const text = chars[Math.floor(Math.random() * chars.length)];
+    const text = letters[Math.floor(Math.random() * letters.length)];
     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-    if (drops[i] * fontSize > canvas.height || Math.random() > 0.975) {
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
       drops[i] = 0;
     }
-
     drops[i]++;
   }
 }
 
-setInterval(drawMatrix, 35);
+setInterval(drawMatrix, 33);
 
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+// COUNTDOWN EFFECT (3 giorni)
+const countdown = document.getElementById('countdown');
+countdown.style.opacity = 0;
 
-// COUNTDOWN LOGIC
-const countdownElement = document.getElementById("countdown");
-
-// Target = 3 giorni da ora
-const now = new Date();
-const targetDate = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+const targetDate = new Date();
+targetDate.setDate(targetDate.getDate() + 3);
 
 function updateCountdown() {
-  const currentTime = new Date().getTime();
-  const distance = targetDate - currentTime;
+  const now = new Date();
+  const diff = targetDate - now;
 
-  if (distance <= 0) {
-    countdownElement.textContent = "DAHLIAWARE V3 LAUNCHED!";
+  if (diff <= 0) {
+    countdown.innerText = "The time has come.";
     return;
   }
 
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((distance / (1000 * 60)) % 60);
-  const seconds = Math.floor((distance / 1000) % 60);
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / 1000 / 60) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
 
-  countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  countdown.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
-// Aspetta 3 secondi prima di mostrare il countdown con dissolvenza
 setTimeout(() => {
-  countdownElement.classList.add("visible");
+  countdown.style.transition = 'opacity 2s ease-in-out';
+  countdown.style.opacity = 1;
   setInterval(updateCountdown, 1000);
-}, 3000);
+  updateCountdown();
+}, 2000);
